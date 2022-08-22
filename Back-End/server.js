@@ -4,6 +4,8 @@ const morgan = require('morgan');
 const bodyparser = require('body-parser');
 const mongoose = require('mongoose');
 
+const User = require("./model/user");
+
 const app = express(); // initialize app variable as express application
 
 app.use(express.json());
@@ -29,9 +31,15 @@ app.get('/users', (req,res)=>{
     })
 })
 
-app.post("/create_user",(req,res)=>{
-    console.log("Received");
-    res.send(`Created User ${req.body.name}`)
+app.post("/create_user", (req,res)=>{
+    try {
+        const myUser = new User(req.body);
+        myUser.save();
+        console.log("Received");
+        res.send(myUser)
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 mongoose.connect(process.env.DB_CONNECTION_STRING,(req,res)=>{
