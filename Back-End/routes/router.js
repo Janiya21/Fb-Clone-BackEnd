@@ -3,15 +3,16 @@ const route =express.Router();
 
 const User = require("../model/user");
 
+express().use(express.json());
+
 route.get('/', (req,res)=>{
     res.send('Crud Application')
 })
 
 route.get('/users', (req,res)=>{
-    let users = ["Janith","Sandaru","Dissanayaka"]
-    res.send({
-        users: users
-    })
+    let users =  User.find()
+    .then(data => res.json(data))
+    .catch(error => res.json(error))
 })
 
 route.post("/create_user", (req,res)=>{
