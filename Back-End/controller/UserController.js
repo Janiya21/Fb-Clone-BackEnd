@@ -8,17 +8,17 @@ dotenv.config({path:'config.env'});
 
 app.use(express.json());
 
-route.get('/', (req,res)=>{
+const mainPage = (req, res) => {
     res.send('Crud Application')
-})
+}
 
-route.get('/users', (req,res)=>{
+const getAll = (req, res) => {
     User.find()
     .then(data => res.json(data))
     .catch(error => res.json(error))
-})
+}
 
-route.post("/create_user", async (req,res)=>{
+const regUser = async (req, res) => {
     try {
         const myUser = new User(req.body);
         await myUser.save();
@@ -26,6 +26,6 @@ route.post("/create_user", async (req,res)=>{
     } catch (error) {
         res.status(500).json(error);
     }
-});
+}
 
-module.exports = route;
+module.exports = {mainPage,getAll,regUser};

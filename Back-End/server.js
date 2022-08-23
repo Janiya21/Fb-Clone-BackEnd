@@ -29,7 +29,7 @@ mongoose.connect(
     }
 );
 
-app.use('/', require('./routes/router'));
+app.use('/api', require('./routes/UserRouter'));
 app.use('/api', require('./routes/auth'));
 
 app.listen(PORT, ()=>{
