@@ -1,12 +1,10 @@
-const express = require('express'); // through this we can use express module
-const dotenv = require('dotenv'); // this dotenv file will allows user to hide credentials from others
+const express = require('express');
+const dotenv = require('dotenv');
 const morgan = require('morgan');
 const bodyparser = require('body-parser');
 const mongoose = require('mongoose');
 
-const User = require("./model/user");
-
-const app = express(); // initialize app variable as express application
+const app = express(); 
 
 app.use(express.json());
 
@@ -17,34 +15,21 @@ const customMiddleware = (req,res,next) => {
 
 app.use(customMiddleware);
 
-dotenv.config({path:'config.env'}) // specifying the .env file to the server
-const PORT = process.env.PORT || 8080; // default port set to 8080
+dotenv.config({path:'config.env'}) 
+const PORT = process.env.PORT || 8080; 
 
-app.get('/', (req,res)=>{
-    res.send('Crud Application')
-})
-
-app.get('/users', (req,res)=>{
-    let users = ["Janith","Sandaru","Dissanayaka"]
-    res.send({
-        users: users
-    })
-})
-
-app.post("/create_user", (req,res)=>{
-    try {
-        const myUser = new User(req.body);
-        myUser.save();
-        console.log("Received");
-        res.send(myUser)
-    } catch (error) {
-        console.log(error);
+mongoose.connect(
+    process.env.DB_CONNECTION_STRING,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    },
+    () => {
+      console.log("mongodb is connected");
     }
-});
+);
 
-mongoose.connect(process.env.DB_CONNECTION_STRING,(req,res)=>{
-    console.log("Connected to the DB")
-});
+app.use('/', require('./routes/router'));
 
 app.listen(PORT, ()=>{
     console.log(`Server is Running on http://localhost:${PORT}`);
