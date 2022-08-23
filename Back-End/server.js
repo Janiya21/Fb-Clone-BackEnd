@@ -8,12 +8,12 @@ const app = express();
 
 app.use(express.json());
 
-const customMiddleware = (req,res,next) => {
+/*const customMiddleware = (req,res,next) => {
     console.log("Welcome to the middleware");
     next();
 };
 
-app.use(customMiddleware);
+app.use(customMiddleware);*/
 
 dotenv.config({path:'config.env'}) 
 const PORT = process.env.PORT || 8080; 
@@ -30,6 +30,7 @@ mongoose.connect(
 );
 
 app.use('/', require('./routes/router'));
+app.use('/api', require('./routes/auth'));
 
 app.listen(PORT, ()=>{
     console.log(`Server is Running on http://localhost:${PORT}`);
