@@ -24,6 +24,23 @@ const createPost = async (req, res) => {
     }
 }
 
+const updatePost = async (req, res) => {
+    try {
+        const myPost = new Post(req.body);
+        const id = req.body._id;
+        console.log(id,myPost.title,myPost.body)
+        const updateRow = {_id: id};
+        let newValues = { $set: {title: myPost.title, body: myPost.body}}
+        await myPost.updateOne(updateRow,newValues,function(err, res) {
+            if (err) throw err;
+            console.log("1 document updated");
+        });
+        res.send(myPost);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
+
 const deletePost = (req, res) => {
     const id = req.body._id;
     const deleteRow = {$or: [{_id: id}]};
@@ -32,4 +49,4 @@ const deletePost = (req, res) => {
         .catch(error => res.json(error))
 }
 
-module.exports = {getAllPosts,createPost,deletePost};
+module.exports = {getAllPosts,createPost,deletePost,updatePost};

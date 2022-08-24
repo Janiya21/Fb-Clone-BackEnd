@@ -32,6 +32,20 @@ const register = (req, res, next) => {
     })
 }
 
+const deleteUser = (req, res) => {
+    const id = req.body._id;
+    const deleteRow = {$or: [{_id: id}]};
+    User.deleteOne(deleteRow)
+        .then(data => res.json(data))
+        .catch(error => res.json(error))
+}
+
+const getAllUsers = (req, res) => {
+    User.find()
+        .then(data => res.json(data))
+        .catch(error => res.json(error))
+}
+
 const login = (req,res,next) => {
     const email = req.body.email;
     const password = req.body.password;
@@ -65,4 +79,4 @@ const login = (req,res,next) => {
         })
 }
 
-module.exports = { register, login }
+module.exports = { register, login,deleteUser, getAllUsers }
