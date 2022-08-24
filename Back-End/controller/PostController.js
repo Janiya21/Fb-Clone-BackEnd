@@ -25,7 +25,9 @@ const createPost = async (req, res) => {
 }
 
 const deletePost = (req, res) => {
-    Post.find()
+    const id = req.body._id;
+    const deleteRow = {$or: [{_id: id}]};
+    Post.deleteOne(deleteRow)
         .then(data => res.json(data))
         .catch(error => res.json(error))
 }
