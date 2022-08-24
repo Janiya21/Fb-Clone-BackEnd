@@ -46,6 +46,15 @@ const getAllUsers = (req, res) => {
         .catch(error => res.json(error));
 }
 
+const getUserByID = (req, res) => {
+    const id = req.body._id;
+    const mail = req.body.email;
+
+    User.findOne({$or: [{_id: id},{email: mail}]})
+        .then(data => res.json(data))
+        .catch(error => res.json(error))
+}
+
 const login = (req,res,next) => {
     const email = req.body.email;
     const password = req.body.password;
@@ -79,4 +88,4 @@ const login = (req,res,next) => {
         })
 }
 
-module.exports = { register, login,deleteUser, getAllUsers }
+module.exports = { register, login,deleteUser, getAllUsers, getUserByID }

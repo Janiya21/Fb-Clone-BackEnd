@@ -41,6 +41,14 @@ const updatePost = async (req, res) => {
     }
 }
 
+const getPostByID = (req, res) => {
+    const id = req.body._id;
+
+    Post.findOne({$or: [{_id: id}]})
+        .then(data => res.json(data))
+        .catch(error => res.json(error))
+}
+
 const getRevPosts = (req, res) => {
     const id = req.body.userID;
 
@@ -57,4 +65,4 @@ const deletePost = (req, res) => {
         .catch(error => res.json(error))
 }
 
-module.exports = {getAllPosts,createPost,deletePost,updatePost,getRevPosts};
+module.exports = {getAllPosts,createPost,deletePost,updatePost,getRevPosts,getPostByID};
