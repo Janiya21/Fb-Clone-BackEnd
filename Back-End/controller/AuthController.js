@@ -43,7 +43,7 @@ const deleteUser = (req, res) => {
 const getAllUsers = (req, res) => {
     User.find()
         .then(data => res.json(data))
-        .catch(error => res.json(error))
+        .catch(error => res.json(error));
 }
 
 const login = (req,res,next) => {

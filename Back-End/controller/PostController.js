@@ -41,6 +41,14 @@ const updatePost = async (req, res) => {
     }
 }
 
+const getRevPosts = (req, res) => {
+    const id = req.body.userID;
+
+    Post.find({$or: [{userID: id}]})
+        .then(data => res.json(data))
+        .catch(error => res.json(error))
+}
+
 const deletePost = (req, res) => {
     const id = req.body._id;
     const deleteRow = {$or: [{_id: id}]};
@@ -49,4 +57,4 @@ const deletePost = (req, res) => {
         .catch(error => res.json(error))
 }
 
-module.exports = {getAllPosts,createPost,deletePost,updatePost};
+module.exports = {getAllPosts,createPost,deletePost,updatePost,getRevPosts};
