@@ -31,8 +31,10 @@ mongoose.connect(
 
 app.use('/api', require('./routes/UserRouter'));
 app.use('/api', require('./routes/auth'));
+app.use('/api', require('./routes/PostRouter'));
 
 app.listen(PORT, ()=>{
     console.log(`Server is Running on http://localhost:${PORT}`);
 })
+
 
